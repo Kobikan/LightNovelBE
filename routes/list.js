@@ -18,13 +18,13 @@ router.get('/books/rln', (req, res) => {
   const titles = [];
     toc.books()
       .then(resolved => {
-        letters.split("").forEach( letter => {
-          let $ =  cheerio.load(resolved.data);
-          let names = $(`.letter_${letter}`).contents().text()
-          titles.push(names);
-      })
-      console.log(titles)
-      res.send("ds");
+        let $ =  cheerio.load(resolved.data);
+        $(".list-by-word-body").each((i, elem) => {
+          $(elem).children().children().each((j, el) => {
+            titles.push($(el).children('a').attr('href'))
+          });
+        });
+      res.send(titles);
   })
 
 });
