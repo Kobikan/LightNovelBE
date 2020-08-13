@@ -11,11 +11,9 @@ const createTable = {
             TableName : 'Users',
             KeySchema: [
                 { AttributeName: 'email', KeyType: 'HASH'},
-                { AttributeName: 'id', KeyType: 'RANGE'},  //Partition key
 
             ],
             AttributeDefinitions: [
-                { AttributeName: 'id', AttributeType: 'N' },
                 { AttributeName: 'email', AttributeType: 'S' },
             ],
             ProvisionedThroughput: {
