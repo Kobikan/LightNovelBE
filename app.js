@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const createTable = require('./services/createTables');
-const cors=require('cors');
+const scheduled = require('./services/scheduled');
+const cors = require('cors');
 const app = express();
 const port = 3001;
 
@@ -14,7 +15,9 @@ app.use((req, res, next)=>{
   next();
 });
 app.listen(port, () =>{
-    createTable.user();
+  createTable.user();
+  createTable.novels();
+  scheduled.novels();
     console.log(`Example app listening on port ${port}!`);
 });
 app.use('/book', require('./routes/book'));

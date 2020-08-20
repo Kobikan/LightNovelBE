@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio')
 
 const toc = {
-  async books(){
+  async rln(){
     let list = await axios.get(`https://www.readlightnovel.org/novel-list`)
     return list;
   },
