@@ -9,13 +9,11 @@ function resolveAfter2Seconds() {
   });
 }
 const read = {
-  async chapter(){
-    console.log('calling');
-    let data = await axios.get('https://www.readlightnovel.org/zhan-long/chapter-942')
+  async chapter(link, chapterNumber){
+    let data = await axios.get(link + "/chapter-" + chapterNumber)
     return data;
   },
   async toc(link){
-    console.log('calling');
     let data = await axios.get(link)
     return data;
   },

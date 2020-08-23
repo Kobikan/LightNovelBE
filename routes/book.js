@@ -5,7 +5,7 @@ const _ = require('lodash');
 const router = express.Router();
 const AWS = require('aws-sdk');
 AWS.config.update({
-    region: 'us-east-2',
+    region: 'us-east-1',
     endpoint: 'http://localhost:8000'
 });
 const docClient = new AWS.DynamoDB.DocumentClient();
@@ -17,16 +17,15 @@ router.post('/chapter', (req, res) => {
     ExpressionAttributeValues: {":suf":req.body.suffix}
 };
 docClient.scan(params, function(err, data){
-  console.log(params)
     if (err || _.isEmpty(data.Items)){
       res.status(404).send({ msg: 'not found' });
     } else {
-      read.chapter(data.Items[0].link)
+      read.chapter(data.Items[0].link, req.body.chapterNumber)
       .then(resolve => {
         let $ =  cheerio.load(resolve.data);
         let chapter = $(".chapter-content3").contents().text()
-        let modChapter = chapter.replace(/\s\s/g, '\n\n').split("Chapter")
-        res.send(modChapter[2])
+        let modChapter = chapter.replace(/\s\s/g, '\n\n').split(`Chapter ${req.body.chapterNumber}`)
+        res.send(modChapter[2].split('\n'))
       })
     }
 });

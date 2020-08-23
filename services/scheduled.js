@@ -3,7 +3,7 @@ const toc = require('../services/tableOfContents.js')
 const cheerio = require('cheerio');
 const AWS = require('aws-sdk');
 AWS.config.update({
-    region: 'us-east-2',
+    region: 'us-east-1',
     endpoint: 'http://localhost:8000'
 });
 const docClient = new AWS.DynamoDB.DocumentClient();

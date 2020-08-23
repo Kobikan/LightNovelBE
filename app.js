@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const createTable = require('./services/createTables');
 const scheduled = require('./services/scheduled');
 const cors = require('cors');
+const serverless = require('serverless-http');
 const app = express();
 const port = 3001;
 
@@ -23,3 +24,4 @@ app.listen(port, () =>{
 app.use('/book', require('./routes/book'));
 app.use('/list', require('./routes/list'));
 app.use('/login', require('./routes/login'));
+module.exports = app;
