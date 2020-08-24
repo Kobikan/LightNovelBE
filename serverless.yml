@@ -1,7 +1,8 @@
-service: wuxia_backend
+service: wuxiaBackend
 provider:
   name: aws
   runtime: nodejs10.x
+  stage: dev
 functions:
   app:
     handler: server.run
@@ -9,10 +10,46 @@ functions:
     - http:
         path: /
         method: ANY
-        cors: false
+        cors: true
     - http:
         path: /{proxy+}
         method: ANY
-        cors: false
+        cors: true
+resources:
+  Resources:
+    UsersDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: email
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: Users
+    NovelsDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: name
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: name
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 10
+          WriteCapacityUnits: 10
+        TableName: Novels
+
+custom:
+  serverless-offline:
+    httpPort: 3001
 plugins:
   - serverless-offline
