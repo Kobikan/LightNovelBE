@@ -2,31 +2,29 @@ const express = require('express');
 const toc = require('../services/tableOfContents.js')
 const router = express.Router();
 const cheerio = require('cheerio');
+const _ = require('lodash');
 const AWS = require('aws-sdk');
 AWS.config.update({
-    region: 'us-east-2',
+    region: 'us-east-1',
     endpoint: 'http://localhost:8000'
 });
-const doc = new AWS.DynamoDB.DocumentClient();
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 router.get('/sites', (req, res) => {
 
 });
 
 router.get('/books/rln', (req, res) => {
-  const letters = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const titles = [];
-    toc.books()
-      .then(resolved => {
-        letters.split("").forEach( letter => {
-          let $ =  cheerio.load(resolved.data);
-          let names = $(`.letter_${letter}`).contents().text()
-          titles.push(names);
-      })
-      console.log(titles)
-      res.send("ds");
-  })
-
+  const params = {
+      TableName: 'Novels',
+      Select: 'ALL_ATTRIBUTES',
+  };
+  docClient.scan(params, (err, data)=>{
+    if (err) res.status(404).send({ msg: 'not found' });
+    else {
+      res.json(data.Items)
+    }
+  });
 });
 
 router.all('*', (req, res) => {
