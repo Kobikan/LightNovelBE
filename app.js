@@ -15,10 +15,10 @@ app.use((req, res, next)=>{
   next();
 });
 // app.listen(port, () =>{
-//   createTable.user();
-//   createTable.novels();
-//   scheduled.novels();
-//     console.log(`Example app listening on port ${port}!`);
+  createTable.user();
+  createTable.novels();
+  scheduled.novels();
+  console.log(`Example app listening on port ${port}!`);
 // });
 app.use('/book', require('./routes/book'));
 app.use('/list', require('./routes/list'));

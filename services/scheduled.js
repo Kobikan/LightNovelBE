@@ -10,7 +10,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 
 const tasks = {
   novels: () =>{
-    cron.schedule('20 13 * * *', () => {
+    cron.schedule('41 23 * * *', () => {
       const letters = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       const titles = [];
       console.log("Start Update")
